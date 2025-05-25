@@ -1,6 +1,5 @@
 import { StrictMode } from 'react'
-// import App from './App.jsx'
-import { BrowserRouter } from 'react-router'
+import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from './pages/home/home.jsx';
 import Dashboard from "./pages/admin/dashboard/Dashboard.jsx";
@@ -8,23 +7,22 @@ import Pembelajaran from './pages/pembelajaran/Pembelajaran.jsx';
 import Kamus from './pages/kamus/Kamus.jsx';
 import Budaya from './pages/budaya/Budaya.jsx';
 import ReactDOM from "react-dom/client";
+import NotFound from './pages/notfound';
+import Other from './pages/admin/other/Other.jsx';
 
 const router = createBrowserRouter([
   {
-    path: "/home",
-    element: <Home />,
+    path: "/admin",
     children: [
-      { index: true, element: <Home /> },
-      { path: "dashboard", element: <Dashboard /> },
-      { path: "pembelajaran", element: <Pembelajaran /> },
-      { path: "kamus", element: <Kamus /> },
-      { path: "budaya", element: <Budaya /> },
+      { index: true, element: <Dashboard />, },
+      { path: "/admin/other", element: <Other /> },
     ],
   },
-  {
-    path: "/pembelajaran",
-    element: <Pembelajaran />
-  }
+  { element: <Home />, index: true },
+  { path: "/kamus", element: <Kamus /> },
+  { path: "/budaya", element: <Budaya /> },
+  { path: "/pembelajaran", element: <Pembelajaran /> },
+  { path: "*", element: <NotFound /> }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

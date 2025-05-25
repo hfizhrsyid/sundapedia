@@ -1,7 +1,7 @@
 function Dashboard() {
     return (
         <>
-            <p>This is some bullshit man</p>
+            <p>This is some bullshit dashboard man</p>
         </>
     )
 }
