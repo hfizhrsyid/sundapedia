@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from './pages/home/home.jsx';
+import Home from './pages/home/Home.jsx';
 import Dashboard from "./pages/admin/dashboard/Dashboard.jsx";
 import Pembelajaran from './pages/pembelajaran/Pembelajaran.jsx';
 import Kamus from './pages/kamus/Kamus.jsx';
