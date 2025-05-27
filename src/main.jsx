@@ -1,11 +1,11 @@
 import { StrictMode } from 'react'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from './pages/home/index.jsx';
-import Dashboard from "./pages/admin/dashboard/Dashboard.jsx";
-import Pembelajaran from './pages/pembelajaran/Pembelajaran.jsx';
-import Kamus from './pages/kamus/Kamus.jsx';
-import Budaya from './pages/budaya/Budaya.jsx';
+import Home from './pages/home/';
+import Dashboard from "./pages/admin/dashboard/Dashboard";
+import Pembelajaran from './pages/pembelajaran/';
+import Kamus from './pages/kamus/';
+import Budaya from './pages/budaya/';
 import ReactDOM from "react-dom/client";
 import NotFound from './pages/notfound';
 import Other from './pages/admin/other/Other.jsx';
