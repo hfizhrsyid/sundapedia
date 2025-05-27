@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from './pages/home/Home.jsx';
+import Home from './pages/home/index.jsx';
 import Dashboard from "./pages/admin/dashboard/Dashboard.jsx";
 import Pembelajaran from './pages/pembelajaran/Pembelajaran.jsx';
 import Kamus from './pages/kamus/Kamus.jsx';
@@ -16,6 +16,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Dashboard />, },
       { path: "/admin/other", element: <Other /> },
+      
     ],
   },
   { element: <Home />, index: true },
