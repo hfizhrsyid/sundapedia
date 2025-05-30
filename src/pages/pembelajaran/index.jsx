@@ -1,12 +1,17 @@
 import React from 'react';
 import Navbar from '../../components/Navbar';
 
+const slugify = (text) => text.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-');
+
 const Part = ({ parts }) => (
-  <ul className="list-disc pl-6">
+  <ul className="list-none pl-0">
     {parts.map((part, idx) => (
       <li key={idx} className="mb-2">
-        <span className="block font-semibold text-black mb-1">{part.title}</span>
-        <span className="block text-sm text-gray-800 leading-snug">{part.content}</span>
+        <a href={`/pembelajaran/${slugify(part.title)}`}
+           className="block w-full px-4 py-3 rounded bg-blue-100 hover:bg-blue-200 text-black font-semibold transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 active:bg-blue-300 shadow border border-white">
+          <span className="block text-base font-semibold mb-1">{part.title}</span>
+          <span className="block text-sm text-gray-800 leading-snug">{part.content}</span>
+        </a>
       </li>
     ))}
   </ul>
