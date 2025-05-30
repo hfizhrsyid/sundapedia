@@ -9,20 +9,21 @@ import Budaya from './pages/budaya/';
 import ReactDOM from "react-dom/client";
 import NotFound from './pages/notfound';
 import Other from './pages/admin/other/Other.jsx';
+import HalamanPembelajaran from './pages/pembelajaran/HalamanPembelajaran.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/admin",
     children: [
-      { index: true, element: <Dashboard />, },
+      { index: true, element: <Dashboard /> },
       { path: "/admin/other", element: <Other /> },
-      
     ],
   },
   { element: <Home />, index: true },
   { path: "/kamus", element: <Kamus /> },
   { path: "/budaya", element: <Budaya /> },
   { path: "/pembelajaran", element: <Pembelajaran /> },
+  { path: "/pembelajaran/:partSlug", element: <HalamanPembelajaran /> }, // <-- move this out!
   { path: "*", element: <NotFound /> }
 ]);
 
