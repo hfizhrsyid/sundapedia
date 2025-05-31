@@ -33,6 +33,49 @@ const Course = () => {
   const [courses, setCourses] = useState([]);
   const [uploading, setUploading] = useState(false);
 
+  // Fetch courses and their parts from subcollections
+  async function fetchCourses() {
+    const q = query(collection(db, 'courses'), orderBy('index'));
+    const querySnapshot = await getDocs(q);
+    const courseDocs = querySnapshot.docs;
+    const coursesWithParts = await Promise.all(
+      courseDocs.map(async (doc) => {
+        const course = doc.data();
+        // Fetch parts from subcollection
+        const partsSnap = await getDocs(collection(db, 'courses', doc.id, 'parts'));
+        const parts = partsSnap.docs.map(partDoc => {
+          const partData = partDoc.data();
+          // Robust preview extraction: always prefer a non-empty preview
+          let content = (typeof partData.content === 'string' && partData.content.trim()) ? partData.content : '';
+          if (!content && Array.isArray(partData.blocks)) {
+            // Try to get the first non-empty text block
+            const textBlock = partData.blocks.find(b => b.type === 'text' && b.content && b.content.trim());
+            if (textBlock) {
+              content = textBlock.content;
+            } else {
+              // Fallback: try to get a heading block
+              const headingBlock = partData.blocks.find(b => b.type === 'heading' && b.content && b.content.trim());
+              if (headingBlock) {
+                content = headingBlock.content;
+              } else if (partData.blocks.length > 0) {
+                // Fallback: show a generic message or the first block's type
+                content = `[${partData.blocks[0].type} block]`;
+              } else {
+                content = 'No preview available';
+              }
+            }
+          }
+          return {
+            ...partData,
+            content,
+          };
+        });
+        return { ...course, parts };
+      })
+    );
+    setCourses(coursesWithParts);
+  }
+
   // Safer: Only upload when button is clicked
   const handleUpload = async () => {
     setUploading(true);
@@ -44,12 +87,6 @@ const Course = () => {
     alert('Courses uploaded!');
     fetchCourses(); // Refresh after upload
   };
-
-  async function fetchCourses() {
-    const q = query(collection(db, 'courses'), orderBy('index'));
-    const querySnapshot = await getDocs(q);
-    setCourses(querySnapshot.docs.map(doc => doc.data()));
-  }
 
   useEffect(() => {
     fetchCourses();
