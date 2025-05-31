@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import './index.css'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Home from './pages/home/';
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Pembelajaran from './pages/pembelajaran/';
@@ -10,13 +10,23 @@ import ReactDOM from "react-dom/client";
 import NotFound from './pages/notfound';
 import Other from './pages/admin/other/Other.jsx';
 import HalamanPembelajaran from './pages/pembelajaran/HalamanPembelajaran.jsx';
+import EditPart from './pages/admin/dashboard/EditPart.jsx';
+
+// Wrapper to extract params for EditPart
+import { useParams } from 'react-router-dom';
+function EditPartWrapper() {
+  const { courseId, partId } = useParams();
+  return <EditPart courseId={courseId} partId={partId} />;
+}
 
 const router = createBrowserRouter([
   {
     path: "/admin",
+    element: <DashboardLayout />,
     children: [
       { index: true, element: <Dashboard /> },
-      { path: "/admin/other", element: <Other /> },
+      { path: "other", element: <Other /> },
+      { path: "edit/:courseId/:partId", element: <EditPartWrapper /> },
     ],
   },
   { element: <Home />, index: true },
@@ -26,6 +36,10 @@ const router = createBrowserRouter([
   { path: "/pembelajaran/:partSlug", element: <HalamanPembelajaran /> }, // <-- move this out!
   { path: "*", element: <NotFound /> }
 ]);
+
+function DashboardLayout() {
+  return <Outlet />;
+}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <StrictMode>
