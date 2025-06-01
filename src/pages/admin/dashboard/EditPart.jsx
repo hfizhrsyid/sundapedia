@@ -52,8 +52,10 @@ export default function EditPart({ courseId, partId: partSlug }) {
   if (error) return <div className="text-red-600">{error}</div>;
 
   return (
-    <div>
-      <h1 className="text-xl font-bold mb-4">Edit Part</h1>
+    <div className='bg-white min-h-screen'>
+      <div className='p-1 bg-[#D3A373] text-center mb-4'>
+        <h1 className="text-xl text-white font-bold">Edit Part</h1>
+      </div>
       <AdminBlockEditor initialBlocks={blocks} onSave={handleSave} />
       {saving && <div className="text-blue-600 mt-2">Saving...</div>}
     </div>

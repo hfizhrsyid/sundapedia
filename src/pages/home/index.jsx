@@ -16,6 +16,16 @@ const Feature = ({ image, imageAlt, description }) => {
   )
 } 
 
+const Point = ({ title }) => {
+  return (
+    <li className="flex items-center gap-3 p-3 rounded-lg bg-gray-100">
+      <div className="flex-1">
+        <span className="block text-lg font-bold leading-tight">{title}</span>
+      </div>
+    </li>
+  )
+}
+
 function Home() {
   return (
     <div className="bg-white min-h-screen pb-10">
@@ -57,6 +67,11 @@ function Home() {
 
       <div className="flex flex-col justify-center items-center min-h-36 my-10 text-black">
         <h2 className="text-2xl mb-4">Belajar tentang apa saja di Sundapedia?</h2>
+        <ol className="max-w-3xl space-x-2 flex flex-row">
+          <Point title={"Aksara Sunda"}/>
+          <Point title={"Kuliner Khas Sunda"} />
+          <Point title={"Seni dan Musik Sunda"} />
+        </ol>
       </div>
 
       <footer className="text-black text-center mt-10"><p>Sundapedia @ 2025</p></footer>
