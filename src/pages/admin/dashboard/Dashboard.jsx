@@ -113,13 +113,17 @@ function Dashboard() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <div className='bg-white min-h-screen flex flex-col justify-center items-center'>
+      <span class="text-[#D3A373] loading loading-dots loading-lg"></span>
+    </div>
+  )
   if (error) return <div className="text-red-600">{error}</div>;
 
   return (
     <div className='min-h-screen bg-white'>
       <div className='p-1 bg-[#D3A373] text-center'>
-        <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
+        <h1 className="text-2xl font-semibold mb-4">Admin Dashboard</h1>
       </div>
       <div className="p-4 mx-auto text-black">
         {courses.map(course => (

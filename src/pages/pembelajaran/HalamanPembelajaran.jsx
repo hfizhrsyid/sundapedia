@@ -38,7 +38,14 @@ const HalamanPembelajaran = () => {
     fetchPart();
   }, [partSlug]);
 
-  if (loading) return <div className="text-center text-black bg-white min-h-screen">Loading...</div>;
+  if (loading) return (
+    <div>
+      <Navbar />
+      <div className='bg-white min-h-screen flex flex-col justify-center items-center'>
+        <span class="text-[#D3A373] loading loading-dots loading-lg"></span>
+      </div>
+    </div>
+    )
   if (!part) return <div className="text-center text-black bg-white min-h-screen">Materi tidak ditemukan.</div>;
 
   // Only render text blocks first if blocks exist
