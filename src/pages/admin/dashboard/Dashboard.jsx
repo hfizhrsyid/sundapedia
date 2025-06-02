@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import { Link } from "react-router-dom";
+import { useAuth } from '../../../auth/AuthProvider';
 
 function Dashboard() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { logout } = useAuth();
 
   useEffect(() => {
     async function fetchCourses() {
@@ -122,8 +124,14 @@ function Dashboard() {
 
   return (
     <div className='min-h-screen bg-white'>
-      <div className='p-1 bg-[#D3A373] text-center'>
-        <h1 className="text-2xl font-semibold mb-4">Admin Dashboard</h1>
+      <div className='px-4 py-2 flex flex-row bg-[#D3A373] text-center items-center'>
+        <h1 className="text-2xl font-semibold flex-1">Admin Dashboard</h1>
+        <button
+          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4"
+          onClick={logout}
+        >
+          Log out
+        </button>
       </div>
       <div className="p-4 mx-auto text-black">
         {courses.map(course => (
