@@ -5,6 +5,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import Navbar from '../../components/Navbar';
 import ReactMarkdown from 'react-markdown';
 import FlexiblePart from './FlexiblePart';
+import LoadingScreen from '../../components/LoadingScreen';
 
 const slugify = (text) => text.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-');
 
@@ -41,7 +42,7 @@ const HalamanPembelajaran = () => {
   if (loading) return (
     <div>
       <Navbar />
-      
+      <LoadingScreen />
     </div>
     )
   if (!part) return <div className="text-center text-black bg-white min-h-screen">Materi tidak ditemukan.</div>;

@@ -3,7 +3,7 @@ import Navbar from '../../components/Navbar';
 import { useEffect, useState } from 'react';
 import { db } from '../../firebase';
 import { collection, getDocs, addDoc, query, orderBy } from 'firebase/firestore'
-import COURSE_LIST from './COURSE_LIST';
+import COURSE_LIST from './COURSE_LIST.js';
 
 const slugify = (text) => text.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-');
 
@@ -31,7 +31,7 @@ const CourseCard = ({ course }) => (
 
 const Course = () => {
   const [courses, setCourses] = useState([]);
-  // const [uploading, setUploading] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   // Fetch courses and their parts from subcollections, but show courses immediately
   async function fetchCourses() {
@@ -75,16 +75,16 @@ const Course = () => {
   }
 
   // Safer: Only upload when button is clicked
-  // const handleUpload = async () => {
-  //   setUploading(true);
-  //   for (let i = 0; i < COURSE_LIST.length; i++) {
-  //     const course = { ...COURSE_LIST[i], index: i };
-  //     await addDoc(collection(db, 'courses'), course);
-  //   }
-  //   setUploading(false);
-  //   alert('Courses uploaded!');
-  //   fetchCourses(); // Refresh after upload
-  // };
+  const handleUpload = async () => {
+    setUploading(true);
+    for (let i = 0; i < COURSE_LIST.length; i++) {
+      const course = { ...COURSE_LIST[i], index: i };
+      await addDoc(collection(db, 'courses'), course);
+    }
+    setUploading(false);
+    alert('Courses uploaded!');
+    fetchCourses(); // Refresh after upload
+  };
 
   useEffect(() => {
     fetchCourses();
@@ -92,13 +92,13 @@ const Course = () => {
   
   return (
     <div className="flex flex-col items-center w-full px-2">
-      {/* <button
+      <button
         className="mb-6 px-4 py-2 rounded bg-green-600 text-white font-bold hover:bg-green-700 transition-colors"
         onClick={handleUpload}
         disabled={uploading}
       >
         {uploading ? 'Uploading...' : 'Upload Courses to Firestore'}
-      </button> */}
+      </button>
       {courses.map((course, idx) => (
         <CourseCard key={idx} course={course} />
       ))}
