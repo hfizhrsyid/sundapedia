@@ -1,81 +1,66 @@
 import Navbar from "../../components/Navbar"
-import logoSundapedia from "../../assets/logo-only-black.svg"
+import { toSundanese } from "sunda.js"
 import bookIcon from "../../assets/books.svg"
 import learningIcon from "../../assets/learning.svg"
 import cultureIcon from "../../assets/culture.svg"
+import aksaraIcon from "../../assets/aksara.svg"
 
 const Feature = ({ image, imageAlt, description }) => {
   return (
-    <li className="flex flex-row items-center gap-3 p-3 rounded-lg bg-gray-100">
-      <img src={image} alt={imageAlt} className="w-50 max-h-50" />
-      <div className="flex-1">
-        <span className="block text-lg font-bold leading-tight">{imageAlt}</span>
-        <span className="block text-sm leading-snug">{description}</span>
+    <div className="card bg-base-300 w-80 shadow-sm">
+      <figure>
+        <img
+          className="p-6 h-[150px]"
+          src={image}
+          alt={imageAlt}
+        />
+      </figure>
+      <div className="card-body">
+        <h2 className="text-2xl font-extrabold text-center">{imageAlt}</h2>
+        <p className="text-center">{description}</p>
+        <div className="card-actions justify-center mt-4">
+          <button className="btn btn-secondary w-full">Selengkapnya</button>
+        </div>
       </div>
-    </li>
-  )
-} 
-
-const Point = ({ title }) => {
-  return (
-    <li className="flex items-center gap-3 p-3 rounded-lg bg-gray-100">
-      <div className="flex-1">
-        <span className="block text-lg font-bold leading-tight">{title}</span>
-      </div>
-    </li>
+    </div>
   )
 }
 
 function Home() {
   return (
-    <div className="bg-white min-h-screen pb-10">
+    <>
       <Navbar />
-      <div className="hero min-h-144">
-        <div className="hero-content flex-col lg:flex-row gap-10">
-          <img
-            src={logoSundapedia}
-            className="min-w-64 rounded-lg"
-          />
-          <div className="text-black">
-            <h1 className="text-5xl font-bold">Selamat Datang!</h1> 
-            <h1 className="text-5xl font-bold">Wilujeng Sumping!</h1> 
-            <p className="py-6">
-              Sundapedia merupakan situs pembelajaran bahasa dan budaya Sunda. Lihat lebih lanjut untuk mempelajarinya!
-            </p>
-            <div className="flex flex-row gap-3">
-              <button className="bg-[#D3A373] hover:bg-gray-100 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow">Lihat lebih lanjut</button>
-            </div>
+      <div className="hero bg-base-100 min-h-[calc(100vh-100px)]">
+        <div className="hero-content text-center">
+          <div className="max-w-5xl mx-8">
+            <h3 className="text-3xl pb-6">{toSundanese("wilujeng sumping di sundapedia")}</h3>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold">Ngajaga Basa, Ngaraksa Budaya, Ngarojong <span className="text-primary">Generasi Bangsa nu Reueus kana Warisan Sunda</span></h1>
+            <h3 className="py-6 text-xl">
+              Jelajahi kekayaan bahasa, budaya, dan seputar Sunda lainnya di satu tempat.
+            </h3>
           </div>
         </div>
       </div>
-
-      <div className="flex flex-col justify-center items-center min-h-36 my-10 text-black">
-        <h1 className="font-bold">Tentang Sundapedia</h1>
-        <div className="flex justify-center text-center max-w-196">
-          <p>Sundapedia merupakan situs yang dibuat oleh empat orang mahasiswa, yaitu Alvyn, Hafizh, Sandy, dan Yarania. Situs ini dibuat dengan tujuan agar Bahasa Sunda tetap terus digunakan dan dilestarikan di lingkungan masyarakat melalui kamus daring serta pembelajaran bahasa dan budaya.</p>
+      <div className="flex flex-col justify-center items-center my-10">
+        <h2 className="text-4xl font-extrabold mb-16">Ada apa saja di Sundapedia?</h2>
+        <div className="flex flex-row flex-wrap justify-center gap-4">
+          <Feature image={bookIcon} imageAlt={"Kamus & Undak-Usuk"} description={"Fitur kamus beserta undak-usuk basa untuk menerjemahkan Bahasa Sunda ke Bahasa Indonesia maupun sebaliknya"} />
+          <Feature image={aksaraIcon} imageAlt={"Aksara Sunda"} description={"Konversi teks latin ke aksara sunda dan sebaliknya"} />
+          <Feature image={learningIcon} imageAlt={"Pembelajaran Bahasa"} description={"Pembelajaran Bahasa Sunda dilakukan secara bertahap dan disajikan secara interaktif dengan fitur-fitur yang ada!"} />
+          <Feature image={cultureIcon} imageAlt={"Pengenalan Budaya"} description={"Budaya juga dipelajari dengan pengenalan sejarah, kuliner, dan lainnya."} />
         </div>
       </div>
-
-      <div className="flex flex-col justify-center items-center min-h-36 my-10 text-black">
-        <h2 className="text-2xl mb-4">Ada apa saja di Sundapedia?</h2>
-        <ol className="w-full max-w-3xl space-y-2">
-          <Feature image={bookIcon} imageAlt={"Kamus"} description={"Sundapedia menyediakan kamus untuk menerjemahkan Bahasa Sunda ke Bahasa Indonesia maupun sebaliknya"} />
-          <Feature image={learningIcon} imageAlt={"Pembelajaran bahasa"} description={"Pembelajaran Bahasa Sunda dilakukan secara bertahap dan disajikan secara interaktif dengan fitur-fitur yang ada!"} />
-          <Feature image={cultureIcon} imageAlt={"Pengenalan budaya"} description={"Budaya juga dipelajari dengan pengenalan sejarah, kuliner, dan lainnya."} />
-        </ol>
+      <div className="w-full max-w-4xl mx-auto mt-40 mb-20 p-6">
+        <p className="text-xl md:text-3xl font-extrabold text-center text-secondary">
+          Bahasa dan budaya Sunda adalah bagian penting dari kekayaan Indonesia. Jadilah bagian dari generasi bangsa yang bangga dengan warisan Sunda.
+        </p>
       </div>
-
-      <div className="flex flex-col justify-center items-center min-h-36 my-10 text-black">
-        <h2 className="text-2xl mb-4">Belajar tentang apa saja di Sundapedia?</h2>
-        <ol className="max-w-3xl space-x-2 flex flex-row">
-          <Point title={"Aksara Sunda"}/>
-          <Point title={"Kuliner Khas Sunda"} />
-          <Point title={"Seni dan Musik Sunda"} />
-        </ol>
-      </div>
-
-      <footer className="text-black text-center mt-10"><p>Sundapedia @ 2025</p></footer>
-    </div>
+      <footer className="footer sm:footer-horizontal footer-center bg-secondary text-secondary-content p-4">
+        <aside>
+          <p>Copyright © {new Date().getFullYear()} - All right reserved by Rapelita</p>
+        </aside>
+      </footer>
+    </>
   )
 }
 
