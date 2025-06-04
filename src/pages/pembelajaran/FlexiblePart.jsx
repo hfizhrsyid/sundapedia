@@ -65,7 +65,7 @@ function QuizSwiper({ quizzes }) {
   const total = quizzes.length;
 
   return (
-    <div className="my-6 p-4 border rounded bg-yellow-50 dark:bg-base-100 max-w-xl mx-auto">
+    <div className="my-6 p-8 rounded-lg bg-base-200 max-w-xl mx-auto">
       <QuizBlock
         block={quizzes[current]}
         state={states[current]}
@@ -112,7 +112,7 @@ function QuizBlock({ block, state, onSelect, onSubmit }) {
         }}
       >
         {block.options && block.options.map((opt, i) => (
-          <label key={i} className={`block p-2 rounded cursor-pointer border mb-2 ${sub ? (i === block.answer ? 'border-green-500 bg-green-50' : (sel === i ? 'border-red-500 bg-red-50' : '')) : ''}`}>
+          <label key={i} className={`block p-2 rounded cursor-pointer mb-2 ${sub ? (i === block.answer ? 'bg-accent text-white' : (sel === i ? 'bg-error text-white' : 'bg-base-300')) : 'bg-base-300'}`}>
             <input
               type="radio"
               name={`quiz-${block.question}`}
@@ -125,18 +125,20 @@ function QuizBlock({ block, state, onSelect, onSubmit }) {
             {opt}
           </label>
         ))}
-        <button
-          type="submit"
-          className="btn btn-primary mt-2"
-          disabled={sel === null || sub}
-        >
-          {sub ? (isCorrect ? 'Benar!' : 'Coba Lagi') : 'Cek Jawaban'}
-        </button>
-        {sub && (
-          <div className={`mt-2 font-bold ${isCorrect ? 'text-green-600' : 'text-red-600'}`}>
-            {isCorrect ? 'Benar!' : 'Salah. Jawaban yang benar adalah: ' + block.options[block.answer]}
-          </div>
-        )}
+        <div className="flex flex-row items-center gap-6">
+          <button
+            type="submit"
+            className="btn btn-primary mt-2"
+            disabled={sel === null || sub}
+          >
+            Cek Jawaban
+          </button>
+          {sub && (
+            <div className={`mt-2 font-bold ${isCorrect ? 'text-accent' : 'text-error'}`}>
+              {isCorrect ? 'Benar!' : 'Salah. Jawaban yang benar adalah: ' + block.options[block.answer]}
+            </div>
+          )}
+        </div>
       </form>
     </div>
   );

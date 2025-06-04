@@ -5,25 +5,18 @@ import BudayaPage from './BudayaPage';
 import { db } from '../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import LoadingScreen from '../../components/LoadingScreen';
+import Footer from '../../components/Footer';
 
 // komponen card budaya
 const BudayaCard = ({ title, image, bgColor, slug }) => (
-	<div
-		className={`rounded-lg overflow-hidden shadow border border-gray-300 w-60 ${bgColor}`}
-	>
-    <div className='py-2 flex flex-row justify-center items-center'>
-		  <img src={image} alt={title} className="w-auto h-40 object-cover" />
-    </div>
-		<div className="p-4 flex flex-col items-center justify-between min-h-[120px]">
+	<div className={`rounded-lg overflow-hidden w-60 bg-secondary cursor-pointer transition duration-300 transform hover:-translate-y-2 hover:shadow-xl`} onClick={() => window.location.href = `/budaya/${slug}`}>
+		<div className='pt-8 flex flex-row justify-center items-center'>
+			<img src={image} alt={title} className="w-auto h-30 object-cover grayscale-100" />
+		</div>
+		<div className="p-4 flex flex-col items-center justify-between">
 			<h3 className="text-white font-semibold text-lg text-center">
 				{title}
 			</h3>
-			<Link
-				to={`/budaya/${slug}`}
-				className="text-white text-sm font-medium hover:underline"
-			>
-				Selengkapnya
-			</Link>
 		</div>
 	</div>
 );
@@ -55,29 +48,34 @@ function Budaya() {
 	);
 
 	if (loading) return (
-    <div>
-      <Navbar />
-      <LoadingScreen />
-    </div>
-  )
+		<>
+			<Navbar />
+			<div className="flex flex-col items-center justify-center h-[calc(100vh-132px)]">
+				<LoadingScreen />
+			</div>
+			<Footer />
+		</>
+	)
 	if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
 	return (
 		<React.Fragment>
 			<Navbar />
-			<div className="p-8 text-center">
-				<h1 className="text-3xl font-bold mb-2">Budaya Sunda</h1>
-				<p className="mb-8">
+			<div className="p-8 text-center min-h-[calc(100vh-132px)]">
+				<h2 className="text-3xl md:text-4xl font-extrabold text-center mb-4">
+					Budaya Sunda
+				</h2>
+				<p className="text-md text-center mb-8">
 					Pelajari lebih lanjut tentang budaya Sunda di halaman ini.
 				</p>
 
 				<div className="flex justify-center mb-8">
 					<input
 						type="text"
-						placeholder="Cari budaya Sunda..."
+						placeholder="Cari budaya daerah..."
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
-						className="border border-gray-300 rounded px-4 py-2 w-80 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+						className="input input-bordered mb-4"
 					/>
 				</div>
 
@@ -89,17 +87,17 @@ function Budaya() {
 								key={index}
 								title={item.title}
 								image={item.logo || item.imageUrl}
-								bgColor={item.bgColor || 'bg-cyan-500'}
 								slug={item.slug}
 							/>
 						))
 					) : (
-						<p className="text-gray-500 text-center">
+						<p className="text-base text-center">
 							Budaya tidak ditemukan.
 						</p>
 					)}
 				</div>
 			</div>
+			<Footer />
 		</React.Fragment>
 	);
 }

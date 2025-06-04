@@ -30,16 +30,6 @@ function ProtectedRoute({ children, adminOnly }) {
   return children;
 }
 
-// import Banten from './pages/budaya/banten.jsx';
-// import Bandung from './pages/budaya/bandung.jsx';
-// import Sumedang from './pages/budaya/sumedang.jsx';
-// import Bogor from './pages/budaya/bogor.jsx';
-// import Garut from './pages/budaya/garut.jsx';
-// import Tasikmalaya from './pages/budaya/tasik.jsx';
-// import Purwakarta from './pages/budaya/purwakarta.jsx';
-// import Banjar from './pages/budaya/banjar.jsx';
-// import LoadingScreen from './components/LoadingScreen.jsx';
-
 const router = createBrowserRouter([
   {
     path: "/admin",
@@ -56,14 +46,6 @@ const router = createBrowserRouter([
   { path: "/aksara", element: <Aksara /> },
   { path: "/budaya", element: <Budaya /> },
   { path: "/budaya/:slug", element: <BudayaDynamic /> },
-  // { path: "/budaya/banten", element: <Banten /> },
-  // { path: "/budaya/bandung", element: <Bandung /> },
-  // { path: "/budaya/sumedang", element: <Sumedang /> },
-  // { path: "/budaya/bogor", element: <Bogor /> },
-  // { path: "/budaya/garut", element: <Garut /> },
-  // { path: "/budaya/tasikmalaya", element: <Tasikmalaya /> },
-  // { path: "/budaya/banjar", element: <Banjar /> },
-  // { path: "/budaya/purwakarta", element: <Purwakarta /> },
   { path: "/pembelajaran", element: <Pembelajaran /> },
   { path: "/pembelajaran/:partSlug", element: <HalamanPembelajaran /> },
   { path: "*", element: <NotFound /> }

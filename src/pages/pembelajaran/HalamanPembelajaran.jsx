@@ -6,8 +6,10 @@ import Navbar from '../../components/Navbar';
 import ReactMarkdown from 'react-markdown';
 import FlexiblePart from './FlexiblePart';
 import LoadingScreen from '../../components/LoadingScreen';
+import Footer from '../../components/Footer';
+import BackButton from '../../components/BackButton';
 
-const slugify = (text) => text.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-');
+// const slugify = (text) => text.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-');
 
 const HalamanPembelajaran = () => {
   const { partSlug } = useParams();
@@ -40,29 +42,34 @@ const HalamanPembelajaran = () => {
   }, [partSlug]);
 
   if (loading) return (
-    <div>
+    <>
       <Navbar />
-      <LoadingScreen />
-    </div>
-    )
+      <div className="flex flex-col items-center justify-center h-[calc(100vh-132px)]">
+        <LoadingScreen />
+      </div>
+      <Footer />
+    </>
+  )
   if (!part) return <div className="text-center text-black bg-white min-h-screen">Materi tidak ditemukan.</div>;
 
   // Only render text blocks first if blocks exist
   return (
-    <div className="min-h-screen">
-        <Navbar />
-        <div className='max-w-3xl my-4 mx-auto p-6 rounded shadow'>
-            <h1 className="text-2xl font-bold mb-4">{part.title}</h1>
-            {part.blocks ? (
-              <FlexiblePart blocks={part.blocks} />
-            ) : (
-              <ReactMarkdown>{part.content || ''}</ReactMarkdown>
-            )}
-            {part.courseTitle && (
-                <div className="mt-4 text-sm">Bagian dari: {part.courseTitle}</div>
-            )}
-        </div>
-    </div>
+    <>
+      <BackButton />
+      <Navbar />
+      <div className='max-w-3xl my-4 mx-auto p-6 rounded shadow min-h-[calc(100vh-165px)]'>
+        <h1 className="text-4xl font-bold mb-8 text-center">{part.title}</h1>
+        {part.blocks ? (
+          <FlexiblePart blocks={part.blocks} />
+        ) : (
+          <ReactMarkdown>{part.content || ''}</ReactMarkdown>
+        )}
+        {part.courseTitle && (
+          <div className="mt-4 text-sm text-center">Bagian dari: {part.courseTitle}</div>
+        )}
+      </div>
+      <Footer />
+    </>
   );
 };
 

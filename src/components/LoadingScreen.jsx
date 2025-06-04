@@ -1,7 +1,7 @@
-const LoadingScreen = () => {
+const LoadingScreen = (height) => {
     return (
-        <div className='min-h-screen flex flex-col justify-center items-center'>
-            <span className="text-[#D3A373] loading loading-dots loading-lg"></span>
+        <div className={`flex flex-col justify-center items-center` + height}>
+            <span className="text-[#D3A373] loading loading-dots loading-xl"></span>
         </div>
     )
 }

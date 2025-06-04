@@ -3,6 +3,8 @@ import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import Navbar from "../../components/Navbar";
 import LoadingScreen from "../../components/LoadingScreen";
+import Footer from "../../components/Footer";
+import BackButton from "../../components/BackButton";
 
 function BudayaPage({ slug }) {
   const [budaya, setBudaya] = useState(null);
@@ -27,39 +29,47 @@ function BudayaPage({ slug }) {
   }, [slug]);
 
   if (loading) return (
-    <div>
-        <Navbar />
+    <>
+      <Navbar />
+      <div className="flex flex-col items-center justify-center h-[calc(100vh-132px)]">
         <LoadingScreen />
-    </div>
+      </div>
+      <Footer />
+    </>
   )
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
   if (!budaya) return <div className="p-8 text-center">Budaya tidak ditemukan.</div>;
 
   return (
     <div>
-        <Navbar />
-        <div className="max-w-3xl mx-auto p-6">
-        {budaya.logo && <img src={budaya.logo} alt={budaya.title} className="w-24 h-24 mx-auto mb-4" />}
-        <h2 className="text-2xl font-bold mb-6 text-black text-center">{budaya.title}</h2>
+
+      <BackButton />
+      <Navbar />
+      <div className="max-w-3xl mx-auto p-6">
+        {budaya.imageUrl && <img src={budaya.imageUrl} alt={budaya.title} className="w-auto h-24 mx-auto mb-4" />}
+        <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-8">
+          {budaya.title}
+        </h2>
+        {/* <h2 className="text-2xl font-bold mb-6 text-black text-center">{budaya.title}</h2> */}
         {Array.isArray(budaya.sections) &&
-            budaya.sections.map((item, index) => (
+          budaya.sections.map((item, index) => (
             <div key={index} className="mb-5">
-                <button
+              <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
                 aria-expanded={openIndex === index}
-                className="w-full flex justify-between items-center bg-cyan-500 text-white font-semibold rounded-lg px-2 py-3 focus:outline-none"
-                >
+                className={`w-full flex justify-between items-center bg-secondary text-white font-semibold px-5 py-4 focus:outline-none ${openIndex === index ? 'rounded-b-none rounded-t-lg' : 'rounded-lg'}`}
+              >
                 {item.title}
-                <span>{openIndex === index ? "▲" : "▼"}</span>
-                </button>
-                {openIndex === index && (
-                <div className="bg-blue-100 p-5 text-gray-800 rounded-b-lg whitespace-pre-line text-justify">
-                    {item.content}
+                <span className="font-extrabold text-xl">{openIndex === index ? "-" : "+"}</span>
+              </button>
+              {openIndex === index && (
+                <div className="bg-base-300 p-5 rounded-b-lg whitespace-pre-line text-justify">
+                  {item.content}
                 </div>
-                )}
+              )}
             </div>
-            ))}
-        </div>
+          ))}
+      </div>
     </div>
   );
 }

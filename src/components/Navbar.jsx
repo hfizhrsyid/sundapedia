@@ -20,7 +20,7 @@ function Navbar() {
 
 	return (
 		<div className="h-[80px]">
-			<div className="navbar shadow-md h-[80px] bg-base-100 z-50 md:px-8 fixed">
+			<div className="navbar shadow-md h-[80px] bg-base-100 z-40 md:px-8 fixed">
 				<div className="navbar-start">
 					{/* Dropdown navbar */}
 					<div className="dropdown">
@@ -34,7 +34,7 @@ function Navbar() {
 							<li><a className='text-xl py-2' href='/aksara'>Aksara Sunda</a></li>
 							<li><a className='text-xl py-2' href='/pembelajaran'>Pembelajaran</a></li>
 							<li><a className='text-xl py-2' href='/budaya'>Budaya</a></li>
-							<li><a className='text-xl py-2' href='/tentang'>Tentang</a></li>
+							{/* <li><a className='text-xl py-2' href='/tentang'>Tentang</a></li> */}
 						</ul>
 					</div>
 
@@ -51,7 +51,7 @@ function Navbar() {
 						<li><a href='/aksara'>Aksara Sunda</a></li>
 						<li><a href='/pembelajaran'>Pembelajaran</a></li>
 						<li><a href='/budaya'>Budaya</a></li>
-						<li><a href='/tentang'>Tentang</a></li>
+						{/* <li><a href='/tentang'>Tentang</a></li> */}
 					</ul>
 				</div>
 				<div className="navbar-end">
