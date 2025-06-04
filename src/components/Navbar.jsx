@@ -1,6 +1,23 @@
 import logoUrl from '../assets/logo-only.svg';
+import { useEffect } from 'react';
 
 function Navbar() {
+	useEffect(() => {
+		const savedTheme = localStorage.getItem("theme") || "light";
+		document.documentElement.setAttribute("data-theme", savedTheme);
+		const themeCheckbox = document.querySelector(".theme-controller");
+		if (themeCheckbox) {
+		themeCheckbox.checked = savedTheme === "dark";
+		}
+	}, []);
+
+	// Handle theme toggle
+	const handleThemeChange = (e) => {
+		const newTheme = e.target.checked ? "dark" : "light";
+		document.documentElement.setAttribute("data-theme", newTheme);
+		localStorage.setItem("theme", newTheme);
+	};
+
 	return (
 		<div className="h-[80px]">
 			<div className="navbar shadow-md h-[80px] bg-base-100 z-50 md:px-8 fixed">
@@ -39,7 +56,7 @@ function Navbar() {
 					<ul className="menu menu-horizontal">
 						<li>
 							<label className="swap swap-rotate">
-								<input type="checkbox" className="theme-controller" value="light" />
+								<input type="checkbox" className="theme-controller" value="light" onChange={handleThemeChange} />
 								{/* sun icon */}
 								<svg
 									className="swap-off h-8 w-8 fill-current"

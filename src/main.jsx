@@ -23,7 +23,7 @@ function EditPartWrapper() {
 
 function ProtectedRoute({ children, adminOnly }) {
   const { user, loading } = useAuth();
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingScreen /> 
   if (!user) return <Navigate to="/admin/login" />;
   // ...adminOnly logic...
   return children;
@@ -36,6 +36,7 @@ import Garut from './pages/budaya/garut.jsx';
 import Tasikmalaya from './pages/budaya/tasik.jsx';
 import Purwakarta from './pages/budaya/purwakarta.jsx';
 import Banjar from './pages/budaya/banjar.jsx';
+import LoadingScreen from './components/LoadingScreen.jsx';
 
 
 

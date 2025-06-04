@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, writeBatch } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import { Link } from "react-router-dom";
 import { useAuth } from '../../../auth/AuthProvider';
+import LoadingScreen from '../../../components/LoadingScreen';
 
 function Dashboard() {
   const [courses, setCourses] = useState([]);
@@ -115,12 +116,47 @@ function Dashboard() {
     }
   };
 
+  const handleDeleteCourse = async (courseId) => {
+    if (!window.confirm('Are you sure you want to delete this course and all its parts?')) return;
+    setLoading(true);
+    try {
+      // Delete all parts in subcollection
+      const partsSnap = await getDocs(collection(db, 'courses', courseId, 'parts'));
+      const batch = writeBatch(db);
+      partsSnap.forEach(partDoc => {
+        batch.delete(doc(db, 'courses', courseId, 'parts', partDoc.id));
+      });
+      // Delete the course document itself
+      batch.delete(doc(db, 'courses', courseId));
+      await batch.commit();
+      // Refresh courses
+      const coursesSnap = await getDocs(collection(db, 'courses'));
+      const courseList = [];
+      for (const courseDoc of coursesSnap.docs) {
+        const courseId = courseDoc.id;
+        let parts = [];
+        const partsSnap = await getDocs(collection(db, 'courses', courseId, 'parts'));
+        if (!partsSnap.empty) {
+          parts = partsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        } else {
+          const data = courseDoc.data();
+          if (Array.isArray(data.parts)) {
+            parts = data.parts.map((part, idx) => ({ ...part, id: idx }));
+          }
+        }
+        courseList.push({ id: courseId, ...courseDoc.data(), parts });
+      }
+      setCourses(courseList);
+    } catch (e) {
+      alert('Failed to delete course');
+    }
+    setLoading(false);
+  };
+
   if (loading) return (
-    <div className='bg-white min-h-screen flex flex-col justify-center items-center'>
-      <span class="text-[#D3A373] loading loading-dots loading-lg"></span>
-    </div>
+    <LoadingScreen />
   )
-  if (error) return <div className="text-red-600">{error}</div>;
+  if (error) return <div wName="text-red-600">{error}</div>;
 
   return (
     <div className='min-h-screen bg-white'>
@@ -136,13 +172,21 @@ function Dashboard() {
       <div className="p-4 mx-auto text-black">
         {courses.map(course => (
           <div key={course.id} className="mb-6 border rounded p-3 bg-white">
-            <h2 className="font-bold text-lg mb-2">{course.title || course.id}</h2>
-            <button
-              className="mb-2 px-2 py-1 bg-green-600 text-white rounded text-sm"
-              onClick={() => handleAddPart(course.id)}
-            >
-              + Add Part
-            </button>
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="font-bold text-lg mb-2">{course.title || course.id}</h2>
+              <button
+                className="mb-2 px-2 py-1 bg-green-600 text-white rounded text-sm"
+                onClick={() => handleAddPart(course.id)}
+              >
+                + Add Part
+              </button>
+              <button
+                className="mb-2 px-2 py-1 bg-red-600 text-white rounded text-sm ml-2"
+                onClick={() => handleDeleteCourse(course.id)}
+              >
+                Delete Course
+              </button>
+            </div>
             <ul className="ml-4">
               {/* Show subcollection parts first */}
               {course.parts && course.parts.filter(part => part.slug).map(part => (

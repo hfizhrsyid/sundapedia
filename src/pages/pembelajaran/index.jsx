@@ -12,9 +12,9 @@ const Part = ({ parts }) => (
     {parts.map((part, idx) => (
       <li key={idx} className="mb-2">
         <a href={`/pembelajaran/${slugify(part.title)}`}
-           className="block w-full px-4 py-3 rounded bg-blue-100 hover:bg-blue-200 text-black font-semibold transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 active:bg-blue-300 shadow border border-white">
-          <span className="block text-base font-semibold mb-1">{part.title}</span>
-          <span className="block text-sm text-gray-800 leading-snug">{part.content}</span>
+           className="block w-full px-4 py-3 rounded bg-blue-100 hover:bg-blue-200 font-semibold transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 active:bg-blue-300 shadow border border-white">
+          <span className="block font-semibold mb-1">{part.title}</span>
+          <span className="block text-sm leading-snug">{part.content}</span>
         </a>
       </li>
     ))}
@@ -22,16 +22,16 @@ const Part = ({ parts }) => (
 );
 
 const CourseCard = ({ course }) => (
-  <div className="bg-white shadow-md rounded-lg p-6 mb-6 w-full max-w-xl border border-gray-200">
-    <h2 className="text-xl font-bold mb-1 text-black">{course.title}</h2>
-    <p className="mb-3 text-gray-900">{course.description}</p>
+  <div className="shadow-md rounded-lg p-6 mb-6 w-full max-w-xl border border-gray-200">
+    <h2 className="text-xl font-bold mb-1">{course.title}</h2>
+    <p className="mb-3">{course.description}</p>
     <Part parts={course.parts} />
   </div>
 );
 
 const Course = () => {
   const [courses, setCourses] = useState([]);
-  const [uploading, setUploading] = useState(false);
+  // const [uploading, setUploading] = useState(false);
 
   // Fetch courses and their parts from subcollections, but show courses immediately
   async function fetchCourses() {
@@ -75,16 +75,16 @@ const Course = () => {
   }
 
   // Safer: Only upload when button is clicked
-  const handleUpload = async () => {
-    setUploading(true);
-    for (let i = 0; i < COURSE_LIST.length; i++) {
-      const course = { ...COURSE_LIST[i], index: i };
-      await addDoc(collection(db, 'courses'), course);
-    }
-    setUploading(false);
-    alert('Courses uploaded!');
-    fetchCourses(); // Refresh after upload
-  };
+  // const handleUpload = async () => {
+  //   setUploading(true);
+  //   for (let i = 0; i < COURSE_LIST.length; i++) {
+  //     const course = { ...COURSE_LIST[i], index: i };
+  //     await addDoc(collection(db, 'courses'), course);
+  //   }
+  //   setUploading(false);
+  //   alert('Courses uploaded!');
+  //   fetchCourses(); // Refresh after upload
+  // };
 
   useEffect(() => {
     fetchCourses();
@@ -92,13 +92,13 @@ const Course = () => {
   
   return (
     <div className="flex flex-col items-center w-full px-2">
-      <button
+      {/* <button
         className="mb-6 px-4 py-2 rounded bg-green-600 text-white font-bold hover:bg-green-700 transition-colors"
         onClick={handleUpload}
         disabled={uploading}
       >
         {uploading ? 'Uploading...' : 'Upload Courses to Firestore'}
-      </button>
+      </button> */}
       {courses.map((course, idx) => (
         <CourseCard key={idx} course={course} />
       ))}
@@ -108,9 +108,9 @@ const Course = () => {
 
 function Pembelajaran() {
   return (
-    <div className='bg-white min-h-screen'>
+    <div className='min-h-screen'>
       <Navbar />
-      <div className='flex flex-col justify-center items-center text-black mb-4'>
+      <div className='flex flex-col justify-center items-center mb-4 text-center'>
         <h1 className='font-bold'>Bahasa Sunda</h1>
         <p>Selamat datang di halaman pembelajaran Bahasa Sunda!</p>
       </div>
