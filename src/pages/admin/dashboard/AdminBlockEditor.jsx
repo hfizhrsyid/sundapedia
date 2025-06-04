@@ -6,6 +6,7 @@ const BLOCK_TYPES = [
   { value: 'text', label: 'Text' },
   { value: 'heading', label: 'Heading' },
   { value: 'image', label: 'Image' },
+  { value: 'quiz', label: 'Quiz' },
 ];
 
 export default function AdminBlockEditor({ initialBlocks = [], onSave }) {
@@ -20,12 +21,11 @@ export default function AdminBlockEditor({ initialBlocks = [], onSave }) {
 
   // Add a new block at a specific position
   const addBlockAt = (idx, type = 'text') => {
-    const newBlock =
-      type === 'heading'
-        ? { type: 'heading', text: '', level: 2 }
-        : type === 'image'
-        ? { type: 'image', src: '' }
-        : { type: 'text', content: '' };
+    let newBlock;
+    if (type === 'heading') newBlock = { type: 'heading', text: '', level: 2 };
+    else if (type === 'image') newBlock = { type: 'image', src: '' };
+    else if (type === 'quiz') newBlock = { type: 'quiz', question: '', options: ['', '', '', ''], answer: 0 };
+    else newBlock = { type: 'text', content: '' };
     const updated = [...blocks];
     updated.splice(idx, 0, newBlock);
     setBlocks(updated);
@@ -45,6 +45,8 @@ export default function AdminBlockEditor({ initialBlocks = [], onSave }) {
       updated[idx] = { type: 'heading', text: '', level: 2 };
     } else if (type === 'image') {
       updated[idx] = { type: 'image', src: '' };
+    } else if (type === 'quiz') {
+      updated[idx] = { type: 'quiz', question: '', options: ['', '', '', ''], answer: 0 };
     } else {
       updated[idx] = { type: 'text', content: '' };
     }
@@ -72,7 +74,7 @@ export default function AdminBlockEditor({ initialBlocks = [], onSave }) {
   };
 
   return (
-    <div className="p-4 bg-gray-50 rounded border max-w-2xl mx-auto text-black">
+    <div className="p-4 bg-gray-50 rounded border max-w-3xl mx-auto text-black">
       <h2 className="font-bold mb-4">Admin Block Editor</h2>
       <ul className="mb-4">
         {blocks.map((block, idx) => (
@@ -131,6 +133,57 @@ export default function AdminBlockEditor({ initialBlocks = [], onSave }) {
                 onChange={e => updateBlock(idx, 'src', e.target.value)}
                 placeholder="Image URL"
               />
+            ) : block.type === 'quiz' ? (
+              <div className="flex flex-col gap-2">
+                <input
+                  className="border px-2 py-1 rounded w-full font-semibold"
+                  value={block.question}
+                  onChange={e => updateBlock(idx, 'question', e.target.value)}
+                  placeholder="Quiz question"
+                />
+                {block.options && block.options.map((opt, oidx) => (
+                  <div key={oidx} className="flex items-center gap-2">
+                    <input
+                      className="border px-2 py-1 rounded flex-1"
+                      value={opt}
+                      onChange={e => {
+                        const newOptions = [...block.options];
+                        newOptions[oidx] = e.target.value;
+                        updateBlock(idx, 'options', newOptions);
+                      }}
+                      placeholder={`Option ${oidx + 1}`}
+                    />
+                    <input
+                      type="radio"
+                      name={`answer-${idx}`}
+                      checked={block.answer === oidx}
+                      onChange={() => updateBlock(idx, 'answer', oidx)}
+                      className="ml-2"
+                    />
+                    <span className="text-xs">Correct</span>
+                    <button
+                      className="text-red-500 text-xs ml-2"
+                      onClick={() => {
+                        const newOptions = block.options.filter((_, i) => i !== oidx);
+                        let newAnswer = block.answer;
+                        if (oidx < block.answer) newAnswer--;
+                        if (newAnswer >= newOptions.length) newAnswer = 0;
+                        updateBlock(idx, 'options', newOptions);
+                        updateBlock(idx, 'answer', newAnswer);
+                      }}
+                      disabled={block.options.length <= 2}
+                      type="button"
+                    >Remove</button>
+                  </div>
+                ))}
+                <button
+                  className="text-blue-600 text-xs mt-1 self-start"
+                  onClick={() => {
+                    updateBlock(idx, 'options', [...block.options, '']);
+                  }}
+                  type="button"
+                >+ Add Option</button>
+              </div>
             ) : null}
             {/* Add block insert button between blocks */}
             <button

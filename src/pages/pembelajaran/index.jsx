@@ -110,7 +110,7 @@ function Pembelajaran() {
   return (
     <div className='min-h-screen'>
       <Navbar />
-      <div className='flex flex-col justify-center items-center mb-4'>
+      <div className='flex flex-col justify-center items-center mb-4 text-center'>
         <h1 className='font-bold'>Bahasa Sunda</h1>
         <p>Selamat datang di halaman pembelajaran Bahasa Sunda!</p>
       </div>
