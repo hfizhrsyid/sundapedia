@@ -5,7 +5,7 @@ import Home from './pages/home/';
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Pembelajaran from './pages/pembelajaran/';
 import Kamus from './pages/kamus/';
-import Budaya from './pages/budaya/';
+import Budaya, { BudayaDynamic } from './pages/budaya/index.jsx';
 import ReactDOM from "react-dom/client";
 import NotFound from './pages/notfound';
 import Other from './pages/admin/other/Other.jsx';
@@ -40,7 +40,6 @@ import LoadingScreen from './components/LoadingScreen.jsx';
 
 
 
-
 const router = createBrowserRouter([
   {
     path: "/admin",
@@ -55,6 +54,7 @@ const router = createBrowserRouter([
   { element: <Home />, index: true },
   { path: "/kamus", element: <Kamus /> },
   { path: "/budaya", element: <Budaya /> },
+  { path: "/budaya/:slug", element: <BudayaDynamic /> },
   { path: "/budaya/banten", element: <Banten /> },
   { path: "/budaya/bandung", element: <Bandung /> },
   { path: "/budaya/sumedang", element: <Sumedang /> },

@@ -160,7 +160,7 @@ function Dashboard() {
 
   return (
     <div className='min-h-screen bg-white'>
-      <div className='px-4 py-2 flex flex-row bg-[#D3A373] text-center items-center'>
+      <div className='px-4 flex flex-row bg-[#D3A373] text-center items-center'>
         <h1 className="text-2xl font-semibold flex-1">Admin Dashboard</h1>
         <button
           className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4"
