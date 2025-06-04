@@ -30,8 +30,9 @@ function Navbar() {
 						<ul
 							tabIndex={0}
 							className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-7 w-52 p-4 gap-4 shadow-2xl">
-							<li><a className='text-xl py-2' href='/pembelajaran'>Bahasa</a></li>
 							<li><a className='text-xl py-2' href='/kamus'>Kamus</a></li>
+							<li><a className='text-xl py-2' href='/aksara'>Aksara Sunda</a></li>
+							<li><a className='text-xl py-2' href='/pembelajaran'>Pembelajaran</a></li>
 							<li><a className='text-xl py-2' href='/budaya'>Budaya</a></li>
 							<li><a className='text-xl py-2' href='/tentang'>Tentang</a></li>
 						</ul>
@@ -46,8 +47,9 @@ function Navbar() {
 				</div>
 				<div className="navbar-center hidden lg:flex">
 					<ul className="menu menu-horizontal gap-4 text-lg">
-						<li><a href='/pembelajaran'>Bahasa</a></li>
 						<li><a href='/kamus'>Kamus</a></li>
+						<li><a href='/aksara'>Aksara Sunda</a></li>
+						<li><a href='/pembelajaran'>Pembelajaran</a></li>
 						<li><a href='/budaya'>Budaya</a></li>
 						<li><a href='/tentang'>Tentang</a></li>
 					</ul>

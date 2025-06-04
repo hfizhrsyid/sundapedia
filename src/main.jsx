@@ -5,6 +5,7 @@ import Home from './pages/home/';
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Pembelajaran from './pages/pembelajaran/';
 import Kamus from './pages/kamus/';
+import Aksara from './pages/aksara/';
 import Budaya, { BudayaDynamic } from './pages/budaya/index.jsx';
 import ReactDOM from "react-dom/client";
 import NotFound from './pages/notfound';
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
   { path: '/admin/login', element: <AdminLogin />},
   { element: <Home />, index: true },
   { path: "/kamus", element: <Kamus /> },
+  { path: "/aksara", element: <Aksara /> },
   { path: "/budaya", element: <Budaya /> },
   { path: "/budaya/:slug", element: <BudayaDynamic /> },
   { path: "/budaya/banten", element: <Banten /> },
