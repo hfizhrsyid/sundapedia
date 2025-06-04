@@ -14,6 +14,7 @@ import HalamanPembelajaran from './pages/pembelajaran/HalamanPembelajaran.jsx';
 import EditPart from './pages/admin/dashboard/EditPart.jsx';
 import AdminLogin from './pages/admin/login/Login.jsx';
 import { AuthProvider, useAuth } from './auth/AuthProvider';
+import LoadingScreen from './components/LoadingScreen.jsx';
 
 // Wrapper to extract params for EditPart
 import { useParams } from 'react-router-dom';
@@ -38,7 +39,6 @@ function ProtectedRoute({ children, adminOnly }) {
 // import Tasikmalaya from './pages/budaya/tasik.jsx';
 // import Purwakarta from './pages/budaya/purwakarta.jsx';
 // import Banjar from './pages/budaya/banjar.jsx';
-// import LoadingScreen from './components/LoadingScreen.jsx';
 
 const router = createBrowserRouter([
   {
