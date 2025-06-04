@@ -12,9 +12,9 @@ const Part = ({ parts }) => (
     {parts.map((part, idx) => (
       <li key={idx} className="mb-2">
         <a href={`/pembelajaran/${slugify(part.title)}`}
-           className="block w-full px-4 py-3 rounded bg-blue-100 hover:bg-blue-200 text-black font-semibold transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 active:bg-blue-300 shadow border border-white">
-          <span className="block text-base font-semibold mb-1">{part.title}</span>
-          <span className="block text-sm text-gray-800 leading-snug">{part.content}</span>
+           className="block w-full px-4 py-3 rounded bg-blue-100 hover:bg-blue-200 font-semibold transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 active:bg-blue-300 shadow border border-white">
+          <span className="block font-semibold mb-1">{part.title}</span>
+          <span className="block text-sm leading-snug">{part.content}</span>
         </a>
       </li>
     ))}
@@ -24,7 +24,7 @@ const Part = ({ parts }) => (
 const CourseCard = ({ course }) => (
   <div className="shadow-md rounded-lg p-6 mb-6 w-full max-w-xl border border-gray-200">
     <h2 className="text-xl font-bold mb-1">{course.title}</h2>
-    <p className="mb-3 text-gray-900">{course.description}</p>
+    <p className="mb-3">{course.description}</p>
     <Part parts={course.parts} />
   </div>
 );

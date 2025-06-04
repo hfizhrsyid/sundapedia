@@ -1,5 +1,5 @@
 import Navbar from "../../components/Navbar"
-import { toSundanese } from "sunda.js"
+// import { toSundanese } from "sunda.js"
 import bookIcon from "../../assets/books.svg"
 import learningIcon from "../../assets/learning.svg"
 import cultureIcon from "../../assets/culture.svg"
