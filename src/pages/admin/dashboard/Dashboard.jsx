@@ -3,6 +3,7 @@ import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, writeBatch } fr
 import { db } from '../../../firebase';
 import { Link } from "react-router-dom";
 import { useAuth } from '../../../auth/AuthProvider';
+import LoadingScreen from '../../../components/LoadingScreen';
 
 function Dashboard() {
   const [courses, setCourses] = useState([]);
@@ -153,11 +154,9 @@ function Dashboard() {
   };
 
   if (loading) return (
-    <div className='bg-white min-h-screen flex flex-col justify-center items-center'>
-      <span class="text-[#D3A373] loading loading-dots loading-lg"></span>
-    </div>
+    <LoadingScreen />
   )
-  if (error) return <div className="text-red-600">{error}</div>;
+  if (error) return <div wName="text-red-600">{error}</div>;
 
   return (
     <div className='min-h-screen bg-white'>
