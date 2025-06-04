@@ -4,12 +4,14 @@ import { db } from '../../../firebase';
 import { Link } from "react-router-dom";
 import { useAuth } from '../../../auth/AuthProvider';
 import LoadingScreen from '../../../components/LoadingScreen';
+import BudayaAdminEditor from './BudayaAdminEditor.jsx';
 
 function Dashboard() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { logout } = useAuth();
+  const [mode, setMode] = useState('pembelajaran'); // 'pembelajaran' or 'budaya'
 
   useEffect(() => {
     async function fetchCourses() {
@@ -163,200 +165,210 @@ function Dashboard() {
       <div className='px-4 flex flex-row bg-[#D3A373] text-center items-center'>
         <h1 className="text-2xl font-semibold flex-1">Admin Dashboard</h1>
         <button
+          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4"
+          onClick={() => setMode(mode === 'pembelajaran' ? 'budaya' : 'pembelajaran')}
+        >
+          {mode === 'pembelajaran' ? 'Edit Budaya' : 'Edit Pembelajaran'}
+        </button>
+        <button
           className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4"
           onClick={logout}
         >
           Log out
         </button>
       </div>
-      <div className="p-4 mx-auto text-black">
-        {courses.map(course => (
-          <div key={course.id} className="mb-6 border rounded p-3 bg-white">
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="font-bold text-lg mb-2">{course.title || course.id}</h2>
-              <button
-                className="mb-2 px-2 py-1 bg-green-600 text-white rounded text-sm"
-                onClick={() => handleAddPart(course.id)}
-              >
-                + Add Part
-              </button>
-              <button
-                className="mb-2 px-2 py-1 bg-red-600 text-white rounded text-sm ml-2"
-                onClick={() => handleDeleteCourse(course.id)}
-              >
-                Delete Course
-              </button>
-            </div>
-            <ul className="ml-4">
-              {/* Show subcollection parts first */}
-              {course.parts && course.parts.filter(part => part.slug).map(part => (
-                <li key={part.id} className="mb-1 flex flex-col gap-1 border-b pb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold">{part.title || part.slug}</span>
-                  </div>
-                  {/* Always show part.content if present (legacy) or part.description if present (new) */}
-                  {part.description && (
-                    <div className="text-gray-700 text-sm mt-1">{part.description}</div>
-                  )}
-                  {part.content && !part.description && (
-                    <div className="text-gray-700 text-sm mt-1">{part.content}</div>
-                  )}
-                  <div className="flex items-center gap-2 mt-1">
-                    <Link
-                      to={`/admin/edit/${course.id}/${part.slug}`}
-                      className="text-blue-600 underline text-sm"
-                    >
-                      Edit
-                    </Link>
-                    <button
-                      className="text-red-600 underline text-sm ml-2"
-                      onClick={() => handleDeletePart(course.id, part.id)}
-                    >
-                      Delete
-                    </button>
-                    <button
-                      className="text-xs text-blue-500 underline ml-2"
-                      onClick={() => setCourses(cs => cs.map(c => c.id === course.id ? {
-                        ...c,
-                        parts: c.parts.map(p => p.id === part.id ? {
-                          ...p,
-                          editing: true,
-                          editTitle: p.title || '',
-                          editDescription: p.description || p.content || ''
-                        } : p)
-                      } : c))}
-                    >
-                      Edit Description
-                    </button>
-                  </div>
-                  {/* Inline editor for part description */}
-                  {part.editing && (
-                    <div className="flex flex-col gap-1 mt-1">
-                      <input
-                        className="border px-2 py-1 rounded"
-                        value={part.editTitle}
-                        onChange={e => {
-                          const newTitle = e.target.value;
-                          setCourses(cs => cs.map(c => c.id === course.id ? {
-                            ...c,
-                            parts: c.parts.map(p => p.id === part.id ? { ...p, editTitle: newTitle } : p)
-                          } : c));
-                        }}
-                        placeholder="Part Title"
-                      />
-                      <input
-                        className="border px-2 py-1 rounded"
-                        value={part.editDescription}
-                        onChange={e => {
-                          const newDesc = e.target.value;
-                          setCourses(cs => cs.map(c => c.id === course.id ? {
-                            ...c,
-                            parts: c.parts.map(p => p.id === part.id ? { ...p, editDescription: newDesc } : p)
-                          } : c));
-                        }}
-                        placeholder="Part Description"
-                      />
-                      <div className="flex gap-2 mt-1">
-                        <button
-                          className="bg-blue-600 text-white px-3 py-1 rounded"
-                          onClick={async () => {
-                            await updateDoc(doc(db, 'courses', course.id, 'parts', part.id), {
-                              title: part.editTitle,
-                              description: part.editDescription
-                            });
+      {mode === 'pembelajaran' ? (
+        <div className="p-4 mx-auto text-black">
+          {courses.map(course => (
+            <div key={course.id} className="mb-6 border rounded p-3 bg-white">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="font-bold text-lg mb-2">{course.title || course.id}</h2>
+                <button
+                  className="mb-2 px-2 py-1 bg-green-600 text-white rounded text-sm"
+                  onClick={() => handleAddPart(course.id)}
+                >
+                  + Add Part
+                </button>
+                <button
+                  className="mb-2 px-2 py-1 bg-red-600 text-white rounded text-sm ml-2"
+                  onClick={() => handleDeleteCourse(course.id)}
+                >
+                  Delete Course
+                </button>
+              </div>
+              <ul className="ml-4">
+                {/* Show subcollection parts first */}
+                {course.parts && course.parts.filter(part => part.slug).map(part => (
+                  <li key={part.id} className="mb-1 flex flex-col gap-1 border-b pb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold">{part.title || part.slug}</span>
+                    </div>
+                    {/* Always show part.content if present (legacy) or part.description if present (new) */}
+                    {part.description && (
+                      <div className="text-gray-700 text-sm mt-1">{part.description}</div>
+                    )}
+                    {part.content && !part.description && (
+                      <div className="text-gray-700 text-sm mt-1">{part.content}</div>
+                    )}
+                    <div className="flex items-center gap-2 mt-1">
+                      <Link
+                        to={`/admin/edit/${course.id}/${part.slug}`}
+                        className="text-blue-600 underline text-sm"
+                      >
+                        Edit
+                      </Link>
+                      <button
+                        className="text-red-600 underline text-sm ml-2"
+                        onClick={() => handleDeletePart(course.id, part.id)}
+                      >
+                        Delete
+                      </button>
+                      <button
+                        className="text-xs text-blue-500 underline ml-2"
+                        onClick={() => setCourses(cs => cs.map(c => c.id === course.id ? {
+                          ...c,
+                          parts: c.parts.map(p => p.id === part.id ? {
+                            ...p,
+                            editing: true,
+                            editTitle: p.title || '',
+                            editDescription: p.description || p.content || ''
+                          } : p)
+                        } : c))}
+                      >
+                        Edit Description
+                      </button>
+                    </div>
+                    {/* Inline editor for part description */}
+                    {part.editing && (
+                      <div className="flex flex-col gap-1 mt-1">
+                        <input
+                          className="border px-2 py-1 rounded"
+                          value={part.editTitle}
+                          onChange={e => {
+                            const newTitle = e.target.value;
                             setCourses(cs => cs.map(c => c.id === course.id ? {
                               ...c,
-                              parts: c.parts.map(p => p.id === part.id ? {
-                                ...p,
-                                title: part.editTitle,
-                                description: part.editDescription,
-                                editing: false
-                              } : p)
+                              parts: c.parts.map(p => p.id === part.id ? { ...p, editTitle: newTitle } : p)
                             } : c));
                           }}
-                        >
-                          Save
-                        </button>
-                        <button
-                          className="bg-gray-400 text-white px-3 py-1 rounded"
-                          onClick={() => setCourses(cs => cs.map(c => c.id === course.id ? {
-                            ...c,
-                            parts: c.parts.map(p => p.id === part.id ? { ...p, editing: false } : p)
-                          } : c))}
-                        >
-                          Cancel
-                        </button>
+                          placeholder="Part Title"
+                        />
+                        <input
+                          className="border px-2 py-1 rounded"
+                          value={part.editDescription}
+                          onChange={e => {
+                            const newDesc = e.target.value;
+                            setCourses(cs => cs.map(c => c.id === course.id ? {
+                              ...c,
+                              parts: c.parts.map(p => p.id === part.id ? { ...p, editDescription: newDesc } : p)
+                            } : c));
+                          }}
+                          placeholder="Part Description"
+                        />
+                        <div className="flex gap-2 mt-1">
+                          <button
+                            className="bg-blue-600 text-white px-3 py-1 rounded"
+                            onClick={async () => {
+                              await updateDoc(doc(db, 'courses', course.id, 'parts', part.id), {
+                                title: part.editTitle,
+                                description: part.editDescription
+                              });
+                              setCourses(cs => cs.map(c => c.id === course.id ? {
+                                ...c,
+                                parts: c.parts.map(p => p.id === part.id ? {
+                                  ...p,
+                                  title: part.editTitle,
+                                  description: part.editDescription,
+                                  editing: false
+                                } : p)
+                              } : c));
+                            }}
+                          >
+                            Save
+                          </button>
+                          <button
+                            className="bg-gray-400 text-white px-3 py-1 rounded"
+                            onClick={() => setCourses(cs => cs.map(c => c.id === course.id ? {
+                              ...c,
+                              parts: c.parts.map(p => p.id === part.id ? { ...p, editing: false } : p)
+                            } : c))}
+                          >
+                            Cancel
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </li>
-              ))}
-              {/* Show legacy array parts (no slug) */}
-              {Array.isArray(course.legacyParts) && course.legacyParts.length > 0 && course.legacyParts.map((part, idx) => (
-                <li key={"legacy-"+idx} className="mb-1 flex items-center gap-2">
-                  <span>{part.title || part.content || 'Legacy part'}</span>
-                  <span className="text-gray-400 text-xs">Legacy part (not editable)</span>
-                </li>
-              ))}
-              {/* If no parts at all */}
-              {(!course.parts || course.parts.length === 0) && (!Array.isArray(course.legacyParts) || course.legacyParts.length === 0) && (
-                <li className="text-gray-500">No parts</li>
-              )}
-            </ul>
-            {/* --- Add below the course title for editing course name/description --- */}
-            {course.editing ? (
-              <div className="mb-2 flex flex-col gap-2">
-                <input
-                  className="border px-2 py-1 rounded"
-                  value={course.editTitle}
-                  onChange={e => {
-                    const newTitle = e.target.value;
-                    setCourses(cs => cs.map(c => c.id === course.id ? { ...c, editTitle: newTitle } : c));
-                  }}
-                  placeholder="Course Title"
-                />
-                <input
-                  className="border px-2 py-1 rounded"
-                  value={course.editDescription}
-                  onChange={e => {
-                    const newDesc = e.target.value;
-                    setCourses(cs => cs.map(c => c.id === course.id ? { ...c, editDescription: newDesc } : c));
-                  }}
-                  placeholder="Course Description"
-                />
-                <div className="flex gap-2">
-                  <button
-                    className="bg-blue-600 text-white px-3 py-1 rounded"
-                    onClick={async () => {
-                      // Save to Firestore
-                      await updateDoc(doc(db, 'courses', course.id), {
-                        title: course.editTitle,
-                        description: course.editDescription
-                      });
-                      setCourses(cs => cs.map(c => c.id === course.id ? { ...c, title: course.editTitle, description: course.editDescription, editing: false } : c));
+                    )}
+                  </li>
+                ))}
+                {/* Show legacy array parts (no slug) */}
+                {Array.isArray(course.legacyParts) && course.legacyParts.length > 0 && course.legacyParts.map((part, idx) => (
+                  <li key={"legacy-"+idx} className="mb-1 flex items-center gap-2">
+                    <span>{part.title || part.content || 'Legacy part'}</span>
+                    <span className="text-gray-400 text-xs">Legacy part (not editable)</span>
+                  </li>
+                ))}
+                {/* If no parts at all */}
+                {(!course.parts || course.parts.length === 0) && (!Array.isArray(course.legacyParts) || course.legacyParts.length === 0) && (
+                  <li className="text-gray-500">No parts</li>
+                )}
+              </ul>
+              {/* --- Add below the course title for editing course name/description --- */}
+              {course.editing ? (
+                <div className="mb-2 flex flex-col gap-2">
+                  <input
+                    className="border px-2 py-1 rounded"
+                    value={course.editTitle}
+                    onChange={e => {
+                      const newTitle = e.target.value;
+                      setCourses(cs => cs.map(c => c.id === course.id ? { ...c, editTitle: newTitle } : c));
                     }}
-                  >
-                    Save
-                  </button>
-                  <button
-                    className="bg-gray-400 text-white px-3 py-1 rounded"
-                    onClick={() => setCourses(cs => cs.map(c => c.id === course.id ? { ...c, editing: false } : c))}
-                  >
-                    Cancel
-                  </button>
+                    placeholder="Course Title"
+                  />
+                  <input
+                    className="border px-2 py-1 rounded"
+                    value={course.editDescription}
+                    onChange={e => {
+                      const newDesc = e.target.value;
+                      setCourses(cs => cs.map(c => c.id === course.id ? { ...c, editDescription: newDesc } : c));
+                    }}
+                    placeholder="Course Description"
+                  />
+                  <div className="flex gap-2">
+                    <button
+                      className="bg-blue-600 text-white px-3 py-1 rounded"
+                      onClick={async () => {
+                        // Save to Firestore
+                        await updateDoc(doc(db, 'courses', course.id), {
+                          title: course.editTitle,
+                          description: course.editDescription
+                        });
+                        setCourses(cs => cs.map(c => c.id === course.id ? { ...c, title: course.editTitle, description: course.editDescription, editing: false } : c));
+                      }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="bg-gray-400 text-white px-3 py-1 rounded"
+                      onClick={() => setCourses(cs => cs.map(c => c.id === course.id ? { ...c, editing: false } : c))}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <button
-                className="mb-2 px-2 py-1 bg-blue-500 text-white rounded text-sm"
-                onClick={() => setCourses(cs => cs.map(c => c.id === course.id ? { ...c, editing: true, editTitle: c.title || '', editDescription: c.description || '' } : c))}
-              >
-                Edit Course Name/Description
-              </button>
-            )}
-          </div>
-        ))}
-      </div>
+              ) : (
+                <button
+                  className="mb-2 px-2 py-1 bg-blue-500 text-white rounded text-sm"
+                  onClick={() => setCourses(cs => cs.map(c => c.id === course.id ? { ...c, editing: true, editTitle: c.title || '', editDescription: c.description || '' } : c))}
+                >
+                  Edit Course Name/Description
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <BudayaAdminEditor />
+      )}
     </div>
   );
 }

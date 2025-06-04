@@ -1,72 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import { Link, useParams } from 'react-router-dom';
 import BudayaPage from './BudayaPage';
-
-const budayaList = [
-	{
-		title: 'Banten',
-		image: 'logobanten.jpg',
-		bgColor: 'bg-amber-400',
-		slug: 'banten',
-	},
-	{
-		title: 'Bandung',
-		image: '/img/sate-bandeng.jpg',
-		bgColor: 'bg-cyan-500',
-		slug: 'bandung',
-	},
-	{
-		title: 'Sumedang',
-		image: '/img/batagor.jpg',
-		bgColor: 'bg-amber-400',
-		slug: 'sumedang',
-	},
-	{
-		title: 'Bogor',
-		image: '/img/talas.jpg',
-		bgColor: 'bg-cyan-500',
-		slug: 'bogor',
-	},
-	{
-		title: 'Garut',
-		image: '/img/angklung.jpg',
-		bgColor: 'bg-amber-400',
-		slug: 'garut',
-	},
-	{
-		title: 'Tasikmalaya',
-		image: '/img/jaipongan.jpg',
-		bgColor: 'bg-cyan-500',
-		slug: 'tasikmalaya',
-	},
-	{
-		title: 'Banjar',
-		image: '/img/karedok.jpg',
-		bgColor: 'bg-amber-400',
-		slug: 'banjar',
-	},
-	{
-		title: 'Purwakarta',
-		image: '/img/wayang-golek.jpg',
-		bgColor: 'bg-cyan-500',
-		slug: 'purwakarta',
-	},
-];
+import { db } from '../../firebase';
+import { collection, getDocs } from 'firebase/firestore';
+import LoadingScreen from '../../components/LoadingScreen';
 
 // komponen card budaya
 const BudayaCard = ({ title, image, bgColor, slug }) => (
 	<div
 		className={`rounded-lg overflow-hidden shadow border border-gray-300 w-60 ${bgColor}`}
 	>
-		<img src={image} alt={title} className="w-full h-40 object-cover" />
+    <div className='py-2 flex flex-row justify-center items-center'>
+		  <img src={image} alt={title} className="w-auto h-40 object-cover" />
+    </div>
 		<div className="p-4 flex flex-col items-center justify-between min-h-[120px]">
 			<h3 className="text-white font-semibold text-lg text-center">
 				{title}
 			</h3>
 			<Link
 				to={`/budaya/${slug}`}
-				className="mt-2 text-white text-sm font-medium hover:underline"
+				className="text-white text-sm font-medium hover:underline"
 			>
 				Selengkapnya
 			</Link>
@@ -76,14 +30,40 @@ const BudayaCard = ({ title, image, bgColor, slug }) => (
 
 function Budaya() {
 	const [searchTerm, setSearchTerm] = useState('');
+	const [budayaList, setBudayaList] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+
+	useEffect(() => {
+		async function fetchBudaya() {
+			setLoading(true);
+			setError(null);
+			try {
+				const snap = await getDocs(collection(db, 'budaya'));
+				setBudayaList(snap.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+			} catch (e) {
+				setError('Failed to fetch budaya');
+			}
+			setLoading(false);
+		}
+		fetchBudaya();
+	}, []);
 
 	// filter budaya sesuai input search
 	const filteredBudaya = budayaList.filter((item) =>
-		item.title.toLowerCase().includes(searchTerm.toLowerCase())
+		item.title && item.title.toLowerCase().includes(searchTerm.toLowerCase())
 	);
 
+	if (loading) return (
+    <div>
+      <Navbar />
+      <LoadingScreen />
+    </div>
+  )
+	if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
+
 	return (
-		<>
+		<React.Fragment>
 			<Navbar />
 			<div className="p-8 text-center">
 				<h1 className="text-3xl font-bold mb-2">Budaya Sunda</h1>
@@ -91,7 +71,6 @@ function Budaya() {
 					Pelajari lebih lanjut tentang budaya Sunda di halaman ini.
 				</p>
 
-				{/* search input */}
 				<div className="flex justify-center mb-8">
 					<input
 						type="text"
@@ -109,8 +88,8 @@ function Budaya() {
 							<BudayaCard
 								key={index}
 								title={item.title}
-								image={item.image}
-								bgColor={item.bgColor}
+								image={item.logo || item.imageUrl}
+								bgColor={item.bgColor || 'bg-cyan-500'}
 								slug={item.slug}
 							/>
 						))
@@ -121,7 +100,7 @@ function Budaya() {
 					)}
 				</div>
 			</div>
-		</>
+		</React.Fragment>
 	);
 }
 
