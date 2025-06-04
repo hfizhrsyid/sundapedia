@@ -4,6 +4,7 @@ import bookIcon from "../../assets/books.svg"
 import learningIcon from "../../assets/learning.svg"
 import cultureIcon from "../../assets/culture.svg"
 import aksaraIcon from "../../assets/aksara.svg"
+import Footer from "../../components/Footer"
 
 const Feature = ({ image, imageAlt, description }) => {
   return (
@@ -42,7 +43,7 @@ function Home() {
         </div>
       </div>
       <div className="flex flex-col justify-center items-center my-10">
-        <h2 className="text-4xl font-extrabold mb-16">Ada apa saja di Sundapedia?</h2>
+        <h2 className="text-4xl font-extrabold text-center mb-16">Ada apa saja di Sundapedia?</h2>
         <div className="flex flex-row flex-wrap justify-center gap-4">
           <Feature image={bookIcon} imageAlt={"Kamus & Undak-Usuk"} description={"Fitur kamus beserta undak-usuk basa untuk menerjemahkan Bahasa Sunda ke Bahasa Indonesia maupun sebaliknya"} />
           <Feature image={aksaraIcon} imageAlt={"Aksara Sunda"} description={"Konversi teks latin ke aksara sunda dan sebaliknya"} />
@@ -55,11 +56,7 @@ function Home() {
           Bahasa dan budaya Sunda adalah bagian penting dari kekayaan Indonesia. Jadilah bagian dari generasi bangsa yang bangga dengan warisan Sunda.
         </p>
       </div>
-      <footer className="footer sm:footer-horizontal footer-center bg-secondary text-secondary-content p-4">
-        <aside>
-          <p>Copyright © {new Date().getFullYear()} - All right reserved by Rapelita</p>
-        </aside>
-      </footer>
+      <Footer/>
     </>
   )
 }
