@@ -12,7 +12,7 @@ export default function FlexiblePart({ blocks }) {
             if (block.level === 3) return <h3 key={idx}>{block.text}</h3>;
             return <h2 key={idx}>{block.text}</h2>;
           case 'text':
-            return <p key={idx}>{block.content}</p>;
+            return <p key={idx} className='p-16px'>{block.content}</p>;
           case 'image':
             return <img key={idx} src={block.src} alt="" style={{ maxWidth: '100%', margin: '1em 0' }} />;
           // Add more block types (e.g., quiz) as needed
