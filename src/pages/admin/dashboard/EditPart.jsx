@@ -3,6 +3,7 @@ import { collection, query, where, getDocs, updateDoc, doc } from 'firebase/fire
 import { db } from '../../../firebase';
 import AdminBlockEditor from './AdminBlockEditor';
 import LoadingScreen from '../../../components/LoadingScreen';
+import NavbarAdmin from '../../../components/NavbarAdmin';
 
 // Props: courseId, partSlug (string)
 export default function EditPart({ courseId, partId: partSlug }) {
@@ -54,6 +55,7 @@ export default function EditPart({ courseId, partId: partSlug }) {
 
   return (
     <div className='min-h-screen'>
+      <NavbarAdmin back={true} />
       <div className='p-1 text-center mb-4'>
         <h1 className="text-xl text-white font-bold">Edit Part</h1>
       </div>

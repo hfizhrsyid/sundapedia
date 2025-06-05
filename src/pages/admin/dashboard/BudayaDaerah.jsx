@@ -2,9 +2,10 @@ import { useEffect, useState, useRef } from 'react';
 import { collection, getDocs, setDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import { Link } from 'react-router-dom';
+import NavbarAdmin from '../../../components/NavbarAdmin';
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-function BudayaAdminEditor() {
+function BudayaAdmin() {
   const [budayaList, setBudayaList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -106,7 +107,8 @@ function BudayaAdminEditor() {
   if (error) return <div className="text-red-600">{error}</div>;
 
   return (
-    <div className="p-4 text-black">
+    <div className="">
+      <NavbarAdmin back={true} />
       <h2 className="text-xl font-bold mb-4">Admin Budaya Editor</h2>
       <div className="mb-6">
         <h3 className="font-semibold mb-2">Add New Budaya</h3>
@@ -156,4 +158,4 @@ function BudayaAdminEditor() {
   );
 }
 
-export default BudayaAdminEditor;
+export default BudayaAdmin;
