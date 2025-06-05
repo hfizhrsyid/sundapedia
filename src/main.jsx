@@ -16,7 +16,6 @@ import AdminLogin from './pages/admin/login/Login.jsx';
 import { AuthProvider, useAuth } from './auth/AuthProvider';
 import LoadingScreen from './components/LoadingScreen.jsx';
 
-// Wrapper to extract params for EditPart
 import { useParams } from 'react-router-dom';
 function EditPartWrapper() {
   const { courseId, partId } = useParams();
@@ -27,7 +26,6 @@ function ProtectedRoute({ children, adminOnly }) {
   const { user, loading } = useAuth();
   if (loading) return <LoadingScreen /> 
   if (!user) return <Navigate to="/admin/login" />;
-  // ...adminOnly logic...
   return children;
 }
 
