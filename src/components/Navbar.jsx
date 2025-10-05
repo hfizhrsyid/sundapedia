@@ -34,6 +34,7 @@ function Navbar() {
 							<li><a className='text-xl py-2' href='/aksara'>Aksara Sunda</a></li>
 							<li><a className='text-xl py-2' href='/pembelajaran'>Pembelajaran</a></li>
 							<li><a className='text-xl py-2' href='/budaya'>Budaya</a></li>
+							<li><a className='text-xl py-2' href='/' style={{backgroundImage: `linear-gradient(45deg, #b9935d 0%, #427aa1 100%)`, backgroundClip: 'text', color: 'transparent', fontWeight: 800}}>Chatbot</a></li>
 							{/* <li><a className='text-xl py-2' href='/tentang'>Tentang</a></li> */}
 						</ul>
 					</div>
@@ -41,7 +42,7 @@ function Navbar() {
 					<ul className="menu menu-horizontal">
 						<li><a href='/' className="flex items-center gap-2">
 							<img src={logoUrl} width="40px" draggable="false" />
-							<p className="text-xl font-medium">Sunda<b className="font-extrabold">pedia</b></p>
+							<p className="font-bold tracking-tighter" style={{fontFeatureSettings: `'ss01' 1`, fontSize: 30}}>Masagi</p>
 						</a></li>
 					</ul>
 				</div>
@@ -51,6 +52,7 @@ function Navbar() {
 						<li><a href='/aksara'>Aksara Sunda</a></li>
 						<li><a href='/pembelajaran'>Pembelajaran</a></li>
 						<li><a href='/budaya'>Budaya</a></li>
+						<li><a href='/'><span style={{backgroundImage: `linear-gradient(45deg, #b9935d 20%, #427aa1 80%)`, backgroundClip: 'text', color: 'transparent', fontWeight: 800}}>Chatbot</span></a></li>
 						{/* <li><a href='/tentang'>Tentang</a></li> */}
 					</ul>
 				</div>

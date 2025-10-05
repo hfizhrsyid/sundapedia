@@ -31,7 +31,7 @@ function Navbar({back}) {
 					<ul className="menu menu-horizontal">
 						<li><a href='/admin' className="flex items-center gap-2">
 							<img src={logoUrl} width="40px" draggable="false" />
-							<p className="text-xl font-medium">Sundapedia <b className="font-extrabold">Admin</b>  </p>
+							<p className="font-bold tracking-tighter" style={{fontFeatureSettings: `'ss01' 1`, fontSize: 30}}>Masagi</p>
 						</a></li>
 					</ul>
 				</div>

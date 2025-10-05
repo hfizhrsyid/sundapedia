@@ -34,8 +34,8 @@ function Home() {
       <div className="hero bg-base-100 min-h-[calc(100vh-100px)]">
         <div className="hero-content text-center">
           <div className="max-w-5xl mx-8">
-            <h3 className="text-3xl pb-6">{toSundanese("wilujeng sumping di sundapedia")}</h3>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold">Ngajaga Basa, Ngaraksa Budaya, Ngarojong <span className="text-primary">Generasi Bangsa nu Reueus kana Warisan Sunda</span></h1>
+            <h3 className="text-3xl pb-6">{toSundanese("wilujeng sumping di masagi")}</h3>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter">Ngajaga Basa, Ngaraksa Budaya, Ngarojong <span className="text-primary">Generasi Bangsa nu Reueus kana Warisan Sunda</span></h1>
             <h3 className="py-6 text-xl">
               Jelajahi kekayaan bahasa, budaya, dan seputar Sunda lainnya di satu tempat.
             </h3>
@@ -43,7 +43,7 @@ function Home() {
         </div>
       </div>
       <div className="flex flex-col justify-center items-center my-10">
-        <h2 className="text-4xl font-extrabold text-center mb-16">Ada apa saja di Sundapedia?</h2>
+        <h2 className="text-4xl font-extrabold text-center mb-16">Ada apa saja di Masagi?</h2>
         <div className="flex flex-row flex-wrap justify-center gap-4">
           <Feature slug="kamus" image={bookIcon} imageAlt={"Kamus & Undak-Usuk"} description={"Fitur kamus beserta undak-usuk basa untuk menerjemahkan Bahasa Sunda ke Bahasa Indonesia maupun sebaliknya"} />
           <Feature slug="aksara" image={aksaraIcon} imageAlt={"Aksara Sunda"} description={"Konversi teks latin ke aksara sunda dan sebaliknya"} />

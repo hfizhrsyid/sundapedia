@@ -32,7 +32,7 @@ export default function AdminLogin() {
       >
         <a href='/login' className="flex items-center gap-2 mb-6">
           <img src={logoUrl} width="40px" draggable="false" />
-          <p className="text-xl font-medium">Sundapedia <b className="font-extrabold">Admin Login</b>  </p>
+          <p className="text-xl font-medium">Masagi <b className="font-extrabold">Admin Login</b>  </p>
         </a>
         {/* <h2 className="text-2xl font-bold mb-6 text-center">Admin Login</h2> */}
         {error && <div className="text-error text-center mb-4">{error}</div>}

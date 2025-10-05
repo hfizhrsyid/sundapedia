@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import { BrowserRouter } from 'react-router-dom';
 
 describe('Navbar', () => {
-  it('renders Sundapedia brand', () => {
+  it('renders Masagi brand', () => {
     render(
       <BrowserRouter>
         <Navbar />
